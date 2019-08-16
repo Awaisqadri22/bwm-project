@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Provider } from "react-redux";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { Header } from "../src/shared/Header";
+import RentalListing from "../src/components/rental/rental-listing/RentalListing";
+import RentalDetails from "../src/components/rental/rental-detail/RentalDetails";
+import "./app.scss";
+
+const store = require("./reducers/").init();
+
+class App extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <BrowserRouter>
+          <div className="App">
+            <Header />
+            <Route exact path="/" render={() => <Redirect to="/rentals" />} />
+            <Route exact path="/rentals" component={RentalListing} />
+            <Route exact path="/rentals/:id" component={RentalDetails} />
+          </div>
+        </BrowserRouter>
+      </Provider>
+    );
+  }
 }
 
 export default App;
